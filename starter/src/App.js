@@ -51,7 +51,7 @@ function App() {
                           ></div>
                           <div className="book-shelf-changer">
                             <select>
-                              <option value="none" disabled>
+                              <option value="none">
                                 Move to...
                               </option>
                               <option value="currentlyReading">
@@ -81,7 +81,7 @@ function App() {
                           ></div>
                           <div className="book-shelf-changer">
                             <select>
-                              <option value="none" disabled>
+                              <option value="none">
                                 Move to...
                               </option>
                               <option value="currentlyReading">
