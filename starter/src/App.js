@@ -1,10 +1,21 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ListBooksTitle from "./ListBooksTitle";
 import ListBooksContant from "./ListBooksContent";
+import { getAll } from "./BooksAPI";
+import BooksList from "./BooksList";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
+  const [books, setBooks] = useState([]);
+
+  useEffect (() => {
+    getAll().then((books) => {
+      // books
+      setBooks(books);
+      // console.log('books', books);
+    })
+  }, []); 
 
   return (
     <div className="app">
@@ -37,6 +48,7 @@ function App() {
           </div>
         </div>
       )}
+      <BooksList books={books}/>
     </div>
   );
 }
