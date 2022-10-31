@@ -2,10 +2,10 @@ import ShelfCurrentlyReading from "./ShelfCurrentlyReading";
 import ShelfRead from "./ShelfRead";
 import ShelfWantToRead from "./ShelfWantToRead";
 
-const ListBooksContant  = () => {
+const ListBooksContant  = ({ currentlyReading }) => {
     return (
        <div className="list-books-content">
-            <ShelfCurrentlyReading/>
+            <ShelfCurrentlyReading currentlyReading={currentlyReading}/>
             <ShelfWantToRead/>
             <ShelfRead/>
         </div>

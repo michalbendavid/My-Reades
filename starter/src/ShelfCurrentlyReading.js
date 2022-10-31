@@ -1,13 +1,15 @@
+import Book from "./Book";
 import BookShelfChanger from "./BookShelfChanger";
 
-const ShelfCurrentlyReading = () => {
+const ShelfCurrentlyReading = ({ currentlyReading }) => {
     return (
     <div>
         <div className="bookshelf">
             <h2 className="bookshelf-title">Currently Reading</h2>
             <div className="bookshelf-books">
                 <ol className="books-grid">
-                    <li>
+                  {currentlyReading.map((book) => <Book book={book}/>)}
+                    {/* <li>
                       <div className="book">
                         <div className="book-top">
                           <div
@@ -42,7 +44,7 @@ const ShelfCurrentlyReading = () => {
                         <div className="book-title">Ender's Game</div>
                         <div className="book-authors">Orson Scott Card</div>
                       </div>
-                    </li>
+                    </li> */}
                 </ol>
             </div>
         </div>
