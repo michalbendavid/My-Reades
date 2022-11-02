@@ -1,13 +1,18 @@
-import ShelfCurrentlyReading from "./ShelfCurrentlyReading";
-import ShelfRead from "./ShelfRead";
-import ShelfWantToRead from "./ShelfWantToRead";
+import Shelf from "./BookShelf";
+// import ShelfCurrentlyReading from "./BookShelf";
+// import ShelfRead from "./ShelfRead";
+// import ShelfWantToRead from "./ShelfWantToRead";
 
-const ListBooksContant  = ({ currentlyReading }) => {
+
+const ListBooksContant  = ({ currentlyReading , wantToRead, read, onChange }) => {
     return (
        <div className="list-books-content">
-            <ShelfCurrentlyReading currentlyReading={currentlyReading}/>
+            {/* <ShelfCurrentlyReading currentlyReading={currentlyReading}/>
             <ShelfWantToRead/>
-            <ShelfRead/>
+            <ShelfRead/> */}
+            <Shelf title ="Currently Reading" books = {currentlyReading} onChange = {onChange} />
+            <Shelf title ="Read" books ={read} onChange = {onChange} />
+            <Shelf title ="Want to read" books = {wantToRead} onChange = {onChange} />            
         </div>
      
      );

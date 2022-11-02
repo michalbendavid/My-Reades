@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 import ListBooksTitle from "./ListBooksTitle";
 import ListBooksContant from "./ListBooksContent";
 import { getAll } from "./BooksAPI";
-// import BooksList from "./Book";
+import Shelf from "./BookShelf";
+import {update} from "./BooksAPI";
+
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
   const [books, setBooks] = useState([]);
-
+  
   useEffect (() => {
     getAll().then((books) => {
       // books
@@ -19,28 +21,20 @@ function App() {
 
   console.log(books);
 
+ async function onChange (book, shelf) { 
+        await update(book, shelf)
+        setBooks(books.filter( b => b.id !== book.id ).concat( {...book, shelf} ) )
+        console.log ("option changed")
+        console.log(shelf); 
+       }
+
   const currentlyReading = books.filter((book) => book.shelf === 'currentlyReading');
+  const wantToRead = books.filter((book) => book.shelf === 'wantToRead');
+  const read = books.filter((book) => book.shelf === 'read');
 
-  console.log('currentlyReading', currentlyReading)
-  
-  // [A, B,] => [C, D] :: Map
-  // [1,2,3] => [2,3,4]
-  // { title: 'Michal' } => <h3>{title}</h3>
-
-  // return (
-
-  //   <section>
-  //     Planing to read
-  //     <ul>
-  //       {planningToRead.map((book) => <Book book={book}/>)}
-  //     </ul>
-  //     book1, book2, book3
-  //   </section>
-  //   <section>
-  //     currently reading
-  //     book4, book6, book7
-  //   </section>
-  // );
+  console.log('currentlyReading', currentlyReading);
+  console.log('want to read', wantToRead);
+  console.log('read', read);
 
   return (
     <div className="app">
@@ -67,7 +61,7 @@ function App() {
       ) : (
           <div className="list-books">
             <ListBooksTitle/>
-            <ListBooksContant currentlyReading={currentlyReading}/>
+            <ListBooksContant currentlyReading={currentlyReading} wantToRead={wantToRead} read={read} onChange = {onChange} />
           <div className="open-search">
             <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
           </div>
