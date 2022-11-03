@@ -1,7 +1,5 @@
 import React from 'react';
 import BookShelfChanger from "./BookShelfChanger";
-import {update} from "./BooksAPI";
-import Shelf from './BookShelf';
 
 const Book = ({ book , onChange }) => {
     function changeShelf (event) {

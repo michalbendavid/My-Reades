@@ -1,4 +1,3 @@
-import Book from "./Book";
 
 function BookShelfChanger({book, onChange }) {
     return (
