@@ -2,39 +2,37 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import ListBooksTitle from "./ListBooksTitle";
 import ListBooksContant from "./ListBooksContent";
-import { getAll } from "./BooksAPI";
-import Shelf from "./BookShelf";
-import {update} from "./BooksAPI";
-
+import {update, getAll, search} from "./BooksAPI";
+import Book from "./Book";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
   const [books, setBooks] = useState([]);
-  
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+    
   useEffect (() => {
     getAll().then((books) => {
-      // books
       setBooks(books);
-      // console.log('books', books);
     })
   }, []); 
 
-  console.log(books);
+  useEffect (() => {
+    if (query) {
+      search(query, 20).then((results) => {
+      console.warn(results);
+      setSearchResults(results);
+      });
+    }
+  } , [query]);
 
  async function onChange (book, shelf) { 
         await update(book, shelf)
-        setBooks(books.filter( b => b.id !== book.id ).concat( {...book, shelf} ) )
-        console.log ("option changed")
-        console.log(shelf); 
-       }
+        setBooks(books.filter( b => b.id !== book.id ).concat({...book, shelf}))}
 
-  const currentlyReading = books.filter((book) => book.shelf === 'currentlyReading');
+   const currentlyReading = books.filter((book) => book.shelf === 'currentlyReading');
   const wantToRead = books.filter((book) => book.shelf === 'wantToRead');
   const read = books.filter((book) => book.shelf === 'read');
-
-  console.log('currentlyReading', currentlyReading);
-  console.log('want to read', wantToRead);
-  console.log('read', read);
 
   return (
     <div className="app">
@@ -51,11 +49,15 @@ function App() {
               <input
                 type="text"
                 placeholder="Search by title, author, or ISBN"
+                onChange={(event) => setQuery(event.target.value)}
               />
             </div>
           </div>
           <div className="search-books-results">
-            <ol className="books-grid"></ol>
+            <ol className="books-grid">
+               {searchResults && searchResults.map((book) => <Book book={book} key={book.id} onChange = {onChange} />)}
+
+            </ol>
           </div>
         </div>
       ) : (
@@ -67,8 +69,7 @@ function App() {
           </div>
         </div>
       )}
-      {/* <BooksList books={books}/> */}
-    </div>
+     </div>
   );
 }
 
