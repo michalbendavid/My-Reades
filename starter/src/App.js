@@ -1,6 +1,5 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-// import ListBooksTitle from "./ListBooksTitle";
 import ListBooksContant from "./ListBooksContent";
 import {update, getAll, search} from "./BooksAPI";
 import Book from "./Book";
@@ -13,6 +12,7 @@ function App() {
   useEffect (() => {
     getAll().then((books) => {
       setBooks(books);
+      console.log(books);
     })
   }, []); 
     

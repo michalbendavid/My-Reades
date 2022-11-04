@@ -4,7 +4,7 @@ import BookShelfChanger from "./BookShelfChanger";
 const Book = ({ book , onChange }) => {
     function changeShelf (event) {
         onChange(book, event.target.value) 
-       }
+      }
     return (
       <li>
         <div className="book">
@@ -13,7 +13,7 @@ const Book = ({ book , onChange }) => {
                 style={{
                   width: 128,
                   height: 192,
-                  backgroundImage: `url("${book.imageLinks.thumbnail}")`
+                  backgroundImage: `url(${book.imageLinks.thumbnail})`
                  }}
            ></div><BookShelfChanger book={book} onChange = {changeShelf}/></div>
           <div className="book-title">{book.title}</div>
