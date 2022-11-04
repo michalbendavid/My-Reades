@@ -8,7 +8,6 @@ import Book from "./Book";
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
   const [books, setBooks] = useState([]);
-  const [query, setQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
     
   useEffect (() => {
@@ -16,21 +15,20 @@ function App() {
       setBooks(books);
     })
   }, []); 
-
-  useEffect (() => {
-    if (query) {
-      search(query, 20).then((results) => {
-      console.warn(results);
+    
+  async function searchBooks (query){
+    await search(query, 20).then((results) => {
+      if (!results || results.error){
+        setSearchResults([])
+        return };
       setSearchResults(results);
-      });
-    }
-  } , [query]);
-
+      });}
+  
  async function onChange (book, shelf) { 
         await update(book, shelf)
-        setBooks(books.filter( b => b.id !== book.id ).concat({...book, shelf}))}
+        setBooks(books.filter(b => b.id !== book.id).concat({...book, shelf}))}
 
-   const currentlyReading = books.filter((book) => book.shelf === 'currentlyReading');
+  const currentlyReading = books.filter((book) => book.shelf === 'currentlyReading');
   const wantToRead = books.filter((book) => book.shelf === 'wantToRead');
   const read = books.filter((book) => book.shelf === 'read');
 
@@ -41,22 +39,20 @@ function App() {
           <div className="search-books-bar">
             <button
               className="close-search"
-              onClick={() => setShowSearchpage(!showSearchPage)}
-            >
+              onClick={() => setShowSearchpage(!showSearchPage)}>
               Close
             </button>
             <div className="search-books-input-wrapper">
               <input
                 type="text"
                 placeholder="Search by title, author, or ISBN"
-                onChange={(event) => setQuery(event.target.value)}
+                onChange={(event) => searchBooks(event.target.value)}
               />
             </div>
           </div>
           <div className="search-books-results">
             <ol className="books-grid">
                {searchResults && searchResults.map((book) => <Book book={book} key={book.id} onChange = {onChange} />)}
-
             </ol>
           </div>
         </div>
