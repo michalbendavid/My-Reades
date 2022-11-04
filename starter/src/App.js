@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import ListBooksTitle from "./ListBooksTitle";
+// import ListBooksTitle from "./ListBooksTitle";
 import ListBooksContant from "./ListBooksContent";
 import {update, getAll, search} from "./BooksAPI";
 import Book from "./Book";
@@ -58,7 +58,6 @@ function App() {
         </div>
       ) : (
           <div className="list-books">
-            <ListBooksTitle/>
             <ListBooksContant currentlyReading={currentlyReading} wantToRead={wantToRead} read={read} onChange = {onChange} />
           <div className="open-search">
             <button  onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</button>
