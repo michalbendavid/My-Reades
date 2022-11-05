@@ -12,8 +12,7 @@ function App() {
   useEffect (() => {
     getAll().then((books) => {
       setBooks(books);
-      console.log(books);
-    })
+     })
   }, []); 
     
   async function searchBooks (query){
@@ -21,17 +20,24 @@ function App() {
       if (!results || results.error){
         setSearchResults([])
         return };
-      setSearchResults(results);
-      });}
-  
- async function onChange (book, shelf) { 
-        await update(book, shelf)
-        setBooks(books.filter(b => b.id !== book.id).concat({...book, shelf}))}
+        results.map(book => {
+        const bookOnShelf = books.find(b => b.id === book.id)
+          if (bookOnShelf) {book.shelf = bookOnShelf.shelf}
+          else {book.shelf = "none"}
+        return book
+      });
+     setSearchResults(results);
+    }
+  )}
+
+  async function onChange (book, shelf) { 
+      await update(book, shelf)
+      setBooks(books.filter(b => b.id !== book.id).concat({...book, shelf}))}
 
   const currentlyReading = books.filter((book) => book.shelf === 'currentlyReading');
   const wantToRead = books.filter((book) => book.shelf === 'wantToRead');
   const read = books.filter((book) => book.shelf === 'read');
-
+  
   return (
     <div className="app">
       {showSearchPage ? (
@@ -52,7 +58,7 @@ function App() {
           </div>
           <div className="search-books-results">
             <ol className="books-grid">
-               {searchResults && searchResults.map((book) => <Book book={book} key={book.id} onChange = {onChange} />)}
+               {searchResults && searchResults.map((book) => <Book book={book} key={book.id} onChange = {onChange}/>)}
             </ol>
           </div>
         </div>
